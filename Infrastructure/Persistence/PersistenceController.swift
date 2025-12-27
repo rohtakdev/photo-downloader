@@ -20,12 +20,16 @@ class PersistenceController: ObservableObject {
     }()
     
     let container: NSPersistentContainer
+    private(set) var loadError: Error?
     
     init(inMemory: Bool = false) {
         container = NSPersistentContainer(name: "PhotoDownloadModel")
         
         if inMemory {
-            container.persistentStoreDescriptions.first?.url = URL(fileURLWithPath: "/dev/null")
+            // Configure for in-memory store
+            let description = container.persistentStoreDescriptions.first!
+            description.type = NSInMemoryStoreType
+            description.url = URL(fileURLWithPath: "/dev/null")
         } else {
             // Configure persistent store
             let storeURL = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)
@@ -38,9 +42,38 @@ class PersistenceController: ObservableObject {
         }
         
         // Load persistent stores
+        let semaphore = DispatchSemaphore(value: 0)
+        
         container.loadPersistentStores { description, error in
+            self.loadError = error
             if let error = error {
                 Logger.persistence.error("Core Data store failed to load: \(error.localizedDescription)")
+                Logger.persistence.error("Error details: \(String(describing: error))")
+                if let nsError = error as NSError? {
+                    Logger.persistence.error("Domain: \(nsError.domain), Code: \(nsError.code)")
+                    Logger.persistence.error("UserInfo: \(nsError.userInfo)")
+                    // Print to stderr so it shows in test output
+                    print("❌ Core Data Error: \(nsError.localizedDescription)", to: &FileHandle.standardError)
+                    print("   Domain: \(nsError.domain), Code: \(nsError.code)", to: &FileHandle.standardError)
+                    if let underlyingError = nsError.userInfo[NSUnderlyingErrorKey] as? NSError {
+                        print("   Underlying: \(underlyingError.localizedDescription)", to: &FileHandle.standardError)
+                    }
+                }
+            }
+            semaphore.signal()
+        }
+        
+        // Wait for load to complete (synchronously for initialization)
+        semaphore.wait()
+        
+        // Only fatalError if not in test environment
+        if let error = loadError {
+            // Check if we're in a test environment
+            let isTesting = ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
+            if isTesting {
+                // In tests, log the error but don't fatalError - let tests handle it
+                Logger.persistence.error("Core Data failed in test - test will fail when accessing container")
+            } else {
                 fatalError("Core Data store failed to load: \(error.localizedDescription)")
             }
         }

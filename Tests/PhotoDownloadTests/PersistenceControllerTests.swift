@@ -46,6 +46,11 @@ final class PersistenceControllerTests: XCTestCase {
         // Given/When: Controller is initialized (store loads asynchronously in init)
         let controller = PersistenceController(inMemory: true)
         
+        // Then: Should not have load error
+        if let error = controller.loadError {
+            XCTFail("PersistenceController failed to load: \(error.localizedDescription). This usually means the Core Data model file is not in the Xcode project target. Check that PhotoDownloadModel.xcdatamodeld is added to the 'photo-download' target (not the test target).")
+        }
+        
         // Wait for store to load
         waitForStoreToLoad(controller)
         
