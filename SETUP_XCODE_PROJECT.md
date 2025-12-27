@@ -68,11 +68,12 @@ Xcode will create some default files. You need to:
 
 ### 6. Configure Test Target
 1. **Add test files to test target**:
-   - Select `Tests/PhotoDownloadTests/` folder in navigator
-   - Right-click → **Add Files to "photo-download"...**
+   - Right-click on project in navigator → **Add Files to "photo-download"...**
    - Navigate to `Tests/PhotoDownloadTests/`
-   - Select all `.swift` files
-   - In the dialog, make sure **"photo-downloadTests"** target is checked
+   - Select all `.swift` files (4 files)
+   - **Important**: Uncheck **"Copy items if needed"** (we want references, not copies)
+   - In the dialog, make sure **"photo-downloadTests"** target is checked ✅
+   - Make sure **"photo-download"** target is unchecked ❌ (tests should only be in test target)
    - Click **Add**
 
 2. **Fix test imports**:
