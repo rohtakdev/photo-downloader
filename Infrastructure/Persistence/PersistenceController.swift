@@ -38,21 +38,23 @@ class PersistenceController: ObservableObject {
         }
         
         // Load persistent stores
-        // For in-memory stores, use a semaphore to wait synchronously (for tests)
+        // For in-memory stores, load synchronously using performAndWait (for tests)
         if inMemory {
-            let semaphore = DispatchSemaphore(value: 0)
-            var loadError: Error?
+            let coordinator = container.persistentStoreCoordinator
+            let description = container.persistentStoreDescriptions.first!
             
-            container.loadPersistentStores { description, error in
-                loadError = error
-                semaphore.signal()
-            }
-            
-            semaphore.wait()
-            
-            if let error = loadError {
-                Logger.persistence.error("Core Data store failed to load: \(error.localizedDescription)")
-                fatalError("Core Data store failed to load: \(error.localizedDescription)")
+            coordinator.performAndWait {
+                do {
+                    _ = try coordinator.addPersistentStore(
+                        ofType: NSInMemoryStoreType,
+                        configurationName: nil,
+                        at: description.url,
+                        options: nil
+                    )
+                } catch {
+                    Logger.persistence.error("Core Data store failed to load: \(error.localizedDescription)")
+                    fatalError("Core Data store failed to load: \(error.localizedDescription)")
+                }
             }
         } else {
             container.loadPersistentStores { description, error in
