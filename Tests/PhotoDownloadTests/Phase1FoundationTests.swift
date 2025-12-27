@@ -45,8 +45,15 @@ final class Phase1FoundationTests: XCTestCase {
     }
     
     func testCoreDataModelCanBeLoaded() {
-        // Given: PersistenceController (in-memory loads synchronously)
+        // Given: PersistenceController (store loads asynchronously in init)
         let controller = PersistenceController(inMemory: true)
+        
+        // Wait a moment for async load to complete
+        let expectation = expectation(description: "Store loaded")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            expectation.fulfill()
+        }
+        waitForExpectations(timeout: 1.0)
         
         // When: Accessing managed object model
         let model = controller.container.managedObjectModel
@@ -121,6 +128,13 @@ final class Phase1FoundationTests: XCTestCase {
         
         let controller = PersistenceController(inMemory: true)
         XCTAssertNotNil(controller)
+        
+        // Wait a moment for async load to complete
+        let expectation = expectation(description: "Store loaded")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            expectation.fulfill()
+        }
+        waitForExpectations(timeout: 1.0)
         
         logger.info("Persistence controller initialized")
         

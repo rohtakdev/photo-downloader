@@ -27,8 +27,20 @@ final class PersistenceControllerTests: XCTestCase {
     // MARK: - Initialization Tests
     
     func testPersistenceControllerInitialization() {
-        // Given/When: Controller is initialized (in-memory loads synchronously)
+        // Given/When: Controller is initialized (store loads asynchronously in init)
         let controller = PersistenceController(inMemory: true)
+        
+        // Wait for store to actually load (poll until ready)
+        let expectation = expectation(description: "Store loaded")
+        var attempts = 0
+        Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { timer in
+            attempts += 1
+            if !controller.container.persistentStoreCoordinator.persistentStores.isEmpty || attempts > 20 {
+                timer.invalidate()
+                expectation.fulfill()
+            }
+        }
+        waitForExpectations(timeout: 2.0)
         
         // Then: Container should be initialized
         XCTAssertNotNil(controller.container)
@@ -36,8 +48,15 @@ final class PersistenceControllerTests: XCTestCase {
     }
     
     func testInMemoryStoreConfiguration() {
-        // Given: In-memory controller (loads synchronously)
+        // Given: In-memory controller (store loads asynchronously in init)
         let controller = PersistenceController(inMemory: true)
+        
+        // Wait a moment for async load to complete
+        let expectation = expectation(description: "Store loaded")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            expectation.fulfill()
+        }
+        waitForExpectations(timeout: 1.0)
         
         // Then: Store should be in-memory type
         let stores = controller.container.persistentStoreCoordinator.persistentStores
@@ -48,8 +67,15 @@ final class PersistenceControllerTests: XCTestCase {
     }
     
     func testViewContextConfiguration() {
-        // Given: Initialized controller (loads synchronously)
+        // Given: Initialized controller (store loads asynchronously in init)
         let controller = PersistenceController(inMemory: true)
+        
+        // Wait a moment for async load to complete
+        let expectation = expectation(description: "Store loaded")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            expectation.fulfill()
+        }
+        waitForExpectations(timeout: 1.0)
         
         // Then: View context should be configured correctly
         let viewContext = controller.container.viewContext
@@ -85,8 +111,15 @@ final class PersistenceControllerTests: XCTestCase {
     // MARK: - Core Data Stack Tests
     
     func testPersistentStoreLoading() {
-        // Given: In-memory controller (loads synchronously)
+        // Given: In-memory controller (store loads asynchronously in init)
         let controller = PersistenceController(inMemory: true)
+        
+        // Wait a moment for async load to complete
+        let expectation = expectation(description: "Store loaded")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            expectation.fulfill()
+        }
+        waitForExpectations(timeout: 1.0)
         
         // Then: Persistent stores should be loaded
         XCTAssertFalse(controller.container.persistentStoreDescriptions.isEmpty)
@@ -94,8 +127,15 @@ final class PersistenceControllerTests: XCTestCase {
     }
     
     func testViewContextIsMainContext() {
-        // Given: Initialized controller (loads synchronously)
+        // Given: Initialized controller (store loads asynchronously in init)
         let controller = PersistenceController(inMemory: true)
+        
+        // Wait a moment for async load to complete
+        let expectation = expectation(description: "Store loaded")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            expectation.fulfill()
+        }
+        waitForExpectations(timeout: 1.0)
         
         // Then: View context should be main context
         let viewContext = controller.container.viewContext
