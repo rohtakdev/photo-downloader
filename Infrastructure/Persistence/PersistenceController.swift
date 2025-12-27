@@ -53,10 +53,14 @@ class PersistenceController: ObservableObject {
                     Logger.persistence.error("Domain: \(nsError.domain), Code: \(nsError.code)")
                     Logger.persistence.error("UserInfo: \(nsError.userInfo)")
                     // Print to stderr so it shows in test output
-                    print("❌ Core Data Error: \(nsError.localizedDescription)", to: &FileHandle.standardError)
-                    print("   Domain: \(nsError.domain), Code: \(nsError.code)", to: &FileHandle.standardError)
+                    let errorMsg = """
+                    ❌ Core Data Error: \(nsError.localizedDescription)
+                       Domain: \(nsError.domain), Code: \(nsError.code)
+                    """
+                    FileHandle.standardError.write(Data(errorMsg.utf8))
                     if let underlyingError = nsError.userInfo[NSUnderlyingErrorKey] as? NSError {
-                        print("   Underlying: \(underlyingError.localizedDescription)", to: &FileHandle.standardError)
+                        let underlyingMsg = "\n   Underlying: \(underlyingError.localizedDescription)\n"
+                        FileHandle.standardError.write(Data(underlyingMsg.utf8))
                     }
                 }
             }
