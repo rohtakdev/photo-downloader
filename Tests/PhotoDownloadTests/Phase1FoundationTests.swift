@@ -29,6 +29,22 @@ final class Phase1FoundationTests: XCTestCase {
         super.tearDown()
     }
     
+    // Helper to wait for store to load
+    func waitForStoreToLoad(_ controller: PersistenceController, timeout: TimeInterval = 2.0) {
+        let expectation = expectation(description: "Store loaded")
+        var attempts = 0
+        let maxAttempts = Int(timeout / 0.05)
+        
+        Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { timer in
+            attempts += 1
+            if !controller.container.persistentStoreCoordinator.persistentStores.isEmpty || attempts >= maxAttempts {
+                timer.invalidate()
+                expectation.fulfill()
+            }
+        }
+        waitForExpectations(timeout: timeout)
+    }
+    
     // MARK: - Integration Tests
     
     func testCompletePhase1Setup() {
@@ -48,12 +64,8 @@ final class Phase1FoundationTests: XCTestCase {
         // Given: PersistenceController (store loads asynchronously in init)
         let controller = PersistenceController(inMemory: true)
         
-        // Wait a moment for async load to complete
-        let expectation = expectation(description: "Store loaded")
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            expectation.fulfill()
-        }
-        waitForExpectations(timeout: 1.0)
+        // Wait for store to load
+        waitForStoreToLoad(controller)
         
         // When: Accessing managed object model
         let model = controller.container.managedObjectModel
@@ -129,12 +141,8 @@ final class Phase1FoundationTests: XCTestCase {
         let controller = PersistenceController(inMemory: true)
         XCTAssertNotNil(controller)
         
-        // Wait a moment for async load to complete
-        let expectation = expectation(description: "Store loaded")
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            expectation.fulfill()
-        }
-        waitForExpectations(timeout: 1.0)
+        // Wait for store to load
+        waitForStoreToLoad(controller)
         
         logger.info("Persistence controller initialized")
         

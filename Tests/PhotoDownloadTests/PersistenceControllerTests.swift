@@ -24,23 +24,30 @@ final class PersistenceControllerTests: XCTestCase {
         super.tearDown()
     }
     
+    // Helper to wait for store to load
+    func waitForStoreToLoad(_ controller: PersistenceController, timeout: TimeInterval = 2.0) {
+        let expectation = expectation(description: "Store loaded")
+        var attempts = 0
+        let maxAttempts = Int(timeout / 0.05)
+        
+        Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { timer in
+            attempts += 1
+            if !controller.container.persistentStoreCoordinator.persistentStores.isEmpty || attempts >= maxAttempts {
+                timer.invalidate()
+                expectation.fulfill()
+            }
+        }
+        waitForExpectations(timeout: timeout)
+    }
+    
     // MARK: - Initialization Tests
     
     func testPersistenceControllerInitialization() {
         // Given/When: Controller is initialized (store loads asynchronously in init)
         let controller = PersistenceController(inMemory: true)
         
-        // Wait for store to actually load (poll until ready)
-        let expectation = expectation(description: "Store loaded")
-        var attempts = 0
-        Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { timer in
-            attempts += 1
-            if !controller.container.persistentStoreCoordinator.persistentStores.isEmpty || attempts > 20 {
-                timer.invalidate()
-                expectation.fulfill()
-            }
-        }
-        waitForExpectations(timeout: 2.0)
+        // Wait for store to load
+        waitForStoreToLoad(controller)
         
         // Then: Container should be initialized
         XCTAssertNotNil(controller.container)
@@ -51,12 +58,8 @@ final class PersistenceControllerTests: XCTestCase {
         // Given: In-memory controller (store loads asynchronously in init)
         let controller = PersistenceController(inMemory: true)
         
-        // Wait a moment for async load to complete
-        let expectation = expectation(description: "Store loaded")
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            expectation.fulfill()
-        }
-        waitForExpectations(timeout: 1.0)
+        // Wait for store to load
+        waitForStoreToLoad(controller)
         
         // Then: Store should be in-memory type
         let stores = controller.container.persistentStoreCoordinator.persistentStores
@@ -70,12 +73,8 @@ final class PersistenceControllerTests: XCTestCase {
         // Given: Initialized controller (store loads asynchronously in init)
         let controller = PersistenceController(inMemory: true)
         
-        // Wait a moment for async load to complete
-        let expectation = expectation(description: "Store loaded")
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            expectation.fulfill()
-        }
-        waitForExpectations(timeout: 1.0)
+        // Wait for store to load
+        waitForStoreToLoad(controller)
         
         // Then: View context should be configured correctly
         let viewContext = controller.container.viewContext
@@ -114,12 +113,8 @@ final class PersistenceControllerTests: XCTestCase {
         // Given: In-memory controller (store loads asynchronously in init)
         let controller = PersistenceController(inMemory: true)
         
-        // Wait a moment for async load to complete
-        let expectation = expectation(description: "Store loaded")
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            expectation.fulfill()
-        }
-        waitForExpectations(timeout: 1.0)
+        // Wait for store to load
+        waitForStoreToLoad(controller)
         
         // Then: Persistent stores should be loaded
         XCTAssertFalse(controller.container.persistentStoreDescriptions.isEmpty)
@@ -130,12 +125,8 @@ final class PersistenceControllerTests: XCTestCase {
         // Given: Initialized controller (store loads asynchronously in init)
         let controller = PersistenceController(inMemory: true)
         
-        // Wait a moment for async load to complete
-        let expectation = expectation(description: "Store loaded")
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            expectation.fulfill()
-        }
-        waitForExpectations(timeout: 1.0)
+        // Wait for store to load
+        waitForStoreToLoad(controller)
         
         // Then: View context should be main context
         let viewContext = controller.container.viewContext
