@@ -97,10 +97,18 @@ Xcode will create some default files. You need to:
    - Search for "Code Signing": Set as needed
 
 ### 8. Configure Core Data Model
+
+**For the Model File:**
 1. Select `PhotoDownloadModel.xcdatamodeld` in navigator
 2. In File Inspector (right panel), make sure:
-   - **Target Membership**: `photo-download` is checked
-   - **Codegen**: Set to **Class Definition** (or **Category/Extension**)
+   - **Target Membership**: `photo-download` is checked ✅
+
+**For Each Entity (DownloadItemEntity and SettingsEntity):**
+1. In the Core Data model editor (center pane), click on **DownloadItemEntity**
+2. In the Data Model Inspector (right panel, 4th icon - looks like a document with lines)
+3. Look for **Codegen** dropdown (in the "Class" section)
+4. Set to: **Class Definition** (or **Category/Extension**)
+5. Repeat for **SettingsEntity**
 
 ### 9. Update PersistenceController
 The `PersistenceController.swift` file references the model name. Verify it matches:
