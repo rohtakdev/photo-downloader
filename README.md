@@ -53,7 +53,7 @@ All documentation is in the `docs/` directory:
 
 **Current Phase**: Phase 1 - Foundations ✅ **COMPLETE**
 
-### Phase 1 Completed (December 2024)
+### Phase 1 Completed (December 2025)
 - [x] Project structure created with Clean Architecture layers
 - [x] Core Data model defined (DownloadItemEntity, SettingsEntity)
 - [x] PersistenceController initialized with NSPersistentContainer
@@ -71,5 +71,5 @@ All documentation is in the `docs/` directory:
 
 ## License
 
-Copyright © 2024. All rights reserved.
+Copyright © 2025. All rights reserved.
 

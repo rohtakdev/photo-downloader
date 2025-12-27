@@ -2,7 +2,7 @@
 //  Logger.swift
 //  photo-download
 //
-//  Created on 2024
+//  Created on 2025
 //
 
 import Foundation
