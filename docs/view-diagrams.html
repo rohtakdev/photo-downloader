@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Architecture Diagrams Viewer</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #007acc;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #555;
+            margin-top: 40px;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+        }
+        .diagram-container {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .mermaid {
+            text-align: center;
+        }
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Monaco', 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>Architecture Diagrams Viewer</h1>
+    
+    <div class="note">
+        <strong>Note:</strong> This HTML file uses Mermaid.js from CDN to render the diagrams. 
+        Open this file in any modern web browser to view the diagrams.
+    </div>
+
+    <h2>Current Architecture (Issues Highlighted)</h2>
+    <div class="diagram-container">
+        <div class="mermaid">
+graph TB
+    subgraph "UI Layer"
+        Views[SwiftUI Views]
+        VMs[ViewModels<br/>⚠️ Not explicitly defined]
+    end
+    
+    subgraph "Domain Layer"
+        Models[DownloadItem Model<br/>⚠️ Unclear if Core Data entity]
+        StateMachine[DownloadStatus State Machine]
+        Settings[Settings Model<br/>⚠️ Should be in Application?]
+    end
+    
+    subgraph "Download Engine<br/>⚠️ Layer placement unclear"
+        Queue[Queue Controller]
+        URLSession[URLSession Delegate]
+        Retry[Retry Controller]
+    end
+    
+    subgraph "Persistence Layer"
+        CoreData[(Core Data)]
+    end
+    
+    subgraph "Integration Points"
+        Parser[URL Parser]
+        FileSystem[File System]
+    end
+    
+    Views --> VMs
+    VMs -->|"⚠️ Missing Service Layer"| Models
+    Models -->|"⚠️ Direct dependency?"| CoreData
+    VMs -->|"⚠️ Missing Service Layer"| Queue
+    Queue --> URLSession
+    Queue -->|"⚠️ Dual source of truth"| CoreData
+    URLSession --> FileSystem
+    Parser --> Models
+    
+    style Models fill:#f96,stroke:#333,stroke-width:2px
+    style Queue fill:#f96,stroke:#333,stroke-width:2px
+    style VMs fill:#ff9,stroke:#333,stroke-width:2px
+    style Settings fill:#ff9,stroke:#333,stroke-width:2px
+        </div>
+        <p><strong>Issues Highlighted:</strong></p>
+        <ul>
+            <li>🔴 Red: Critical architectural violations</li>
+            <li>🟡 Yellow: Missing or unclear components</li>
+        </ul>
+    </div>
+
+    <h2>Recommended Architecture (Clean Architecture)</h2>
+    <div class="diagram-container">
+        <div class="mermaid">
+graph TB
+    subgraph "UI Layer"
+        Views[SwiftUI Views]
+        VMs[ViewModels<br/>ObservableObject]
+    end
+    
+    subgraph "Application/Service Layer<br/>✅ NEW"
+        DownloadService[DownloadService<br/>Orchestrates downloads]
+        ImportService[URLImportService<br/>Handles input]
+        SettingsService[SettingsService<br/>Manages settings]
+        ErrorHandler[ErrorHandler<br/>Error classification]
+    end
+    
+    subgraph "Domain Layer<br/>✅ Pure business logic"
+        DomainModel[DownloadItem<br/>Pure Swift struct]
+        StateMachine[DownloadStatus<br/>State Machine]
+        BusinessRules[Business Rules]
+        RepoProtocol[Repository Protocols]
+    end
+    
+    subgraph "Infrastructure Layer"
+        CoreDataRepo[CoreDataRepository<br/>✅ Implements protocol]
+        CoreDataEntities[(Core Data Entities)]
+        NetworkService[URLSession Wrapper]
+        FileService[File System Service]
+    end
+    
+    Views --> VMs
+    VMs --> DownloadService
+    VMs --> ImportService
+    VMs --> SettingsService
+    
+    DownloadService --> DomainModel
+    DownloadService --> RepoProtocol
+    DownloadService --> NetworkService
+    DownloadService --> ErrorHandler
+    
+    ImportService --> Parser[URL Parser]
+    ImportService --> RepoProtocol
+    
+    RepoProtocol -.->|"Implemented by"| CoreDataRepo
+    CoreDataRepo --> CoreDataEntities
+    
+    NetworkService --> FileService
+    
+    style DownloadService fill:#9f9,stroke:#333,stroke-width:2px
+    style DomainModel fill:#9f9,stroke:#333,stroke-width:2px
+    style RepoProtocol fill:#9f9,stroke:#333,stroke-width:2px
+        </div>
+        <p><strong>Improvements:</strong></p>
+        <ul>
+            <li>✅ Clear layer separation</li>
+            <li>✅ Dependency inversion (Domain defines interfaces)</li>
+            <li>✅ Single source of truth (Core Data)</li>
+            <li>✅ Testable layers</li>
+        </ul>
+    </div>
+
+    <h2>Recommended Data Flow</h2>
+    <div class="diagram-container">
+        <div class="mermaid">
+sequenceDiagram
+    participant U as User
+    participant V as View
+    participant VM as ViewModel
+    participant S as DownloadService
+    participant D as Domain
+    participant R as Repository
+    participant CD as Core Data
+    participant N as Network
+    
+    U->>V: Paste URLs
+    V->>VM: Import URLs
+    VM->>S: importURLs(urls)
+    S->>S: Validate URLs
+    S->>D: Create DownloadItem (domain)
+    S->>R: save(item)
+    R->>CD: Persist
+    CD-->>S: Success
+    S->>S: Schedule download
+    S->>N: Start download task
+    N->>N: Download progress
+    N->>S: Update progress
+    S->>R: updateProgress(item, progress)
+    R->>CD: Update
+    CD-->>VM: Publisher/Notification
+    VM->>V: Update UI
+        </div>
+        <p><strong>Benefits:</strong></p>
+        <ul>
+            <li>✅ Clear service layer orchestration</li>
+            <li>✅ Repository abstraction</li>
+            <li>✅ Single source of truth</li>
+            <li>✅ Testable with mocks</li>
+        </ul>
+    </div>
+
+    <h2>State Management Comparison</h2>
+    <div class="diagram-container">
+        <div class="mermaid">
+graph LR
+    subgraph "Current: Dual Source of Truth"
+        Engine[Download Engine<br/>In-Memory State]
+        CD1[(Core Data<br/>Persistent State)]
+        Engine -.->|"Sync Issues"| CD1
+    end
+    
+    subgraph "Recommended: Single Source"
+        CD2[(Core Data<br/>Single Source)]
+        Engine2[Download Engine<br/>Stateless]
+        CD2 -->|"Queries"| Engine2
+        Engine2 -->|"Updates"| CD2
+    end
+        </div>
+        <p><strong>Benefits of Single Source:</strong></p>
+        <ul>
+            <li>✅ No sync issues</li>
+            <li>✅ Automatic crash recovery</li>
+            <li>✅ Consistent state</li>
+        </ul>
+    </div>
+
+    <script>
+        mermaid.initialize({ 
+            startOnLoad: true,
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: true,
+                htmlLabels: true
+            }
+        });
+    </script>
+</body>
+</html>
+

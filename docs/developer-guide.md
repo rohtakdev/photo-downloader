@@ -3,23 +3,49 @@
 ## Project Structure
 ```
 photo-download/
-├── App/              # SwiftUI app entry and scene setup
-├── UI/               # Views, view models, table components
-│   ├── Views/        # SwiftUI views
-│   └── ViewModels/   # Observable view models
-├── Domain/           # Models and state machine
-│   ├── Models/       # DownloadItem, Settings, etc.
-│   └── StateMachine/ # DownloadStatus state machine
-├── Download/         # Queue, URLSession delegates, retry logic
-│   ├── Queue/        # Download queue controller
-│   ├── Engine/       # URLSession management
-│   └── Retry/        # Retry logic and backoff
-├── Persistence/      # Core Data models and migrations
-│   ├── Models/       # Core Data entity definitions (.xcdatamodeld)
-│   └── Migrations/   # Schema migration logic
-└── Utilities/        # Parsing, formatting, file utilities
-    ├── Parsers/      # URL parsing, HTML parsing
-    └── Formatters/   # Size, speed, ETA formatting
+├── App/                    # SwiftUI app entry and scene setup
+├── UI/                      # UI Layer
+│   ├── Views/              # SwiftUI views
+│   └── ViewModels/         # Observable view models (ObservableObject)
+├── Application/            # Application/Service Layer
+│   ├── Services/           # Application services
+│   │   ├── DownloadService.swift
+│   │   ├── URLImportService.swift
+│   │   └── SettingsService.swift
+│   └── ErrorHandling/      # Error handling infrastructure
+│       └── ErrorHandler.swift
+├── Domain/                 # Domain Layer (Pure business logic)
+│   ├── Models/             # Pure Swift domain models
+│   │   ├── DownloadItem.swift
+│   │   └── Settings.swift
+│   ├── StateMachine/       # DownloadStatus state machine
+│   │   └── DownloadStatus.swift
+│   ├── BusinessRules/      # Business logic
+│   │   ├── RetryLogic.swift
+│   │   └── QueueRules.swift
+│   ├── Validation/         # Validation logic
+│   │   └── URLValidator.swift
+│   └── Repositories/       # Repository protocols (interfaces)
+│       ├── DownloadItemRepository.swift
+│       └── SettingsRepository.swift
+├── Infrastructure/         # Infrastructure Layer
+│   ├── Persistence/        # Core Data implementation
+│   │   ├── Models/         # Core Data entity definitions (.xcdatamodeld)
+│   │   ├── Repositories/   # Repository implementations
+│   │   │   ├── CoreDataDownloadItemRepository.swift
+│   │   │   └── CoreDataSettingsRepository.swift
+│   │   ├── Mappers/       # Domain ↔ Core Data mapping
+│   │   │   └── DownloadItemMapper.swift
+│   │   └── Migrations/     # Schema migration logic
+│   ├── Network/           # Network implementation
+│   │   ├── URLSessionWrapper.swift
+│   │   ├── DownloadTaskManager.swift
+│   │   └── ProgressTracker.swift
+│   └── FileSystem/        # File system operations
+│       └── FileManager.swift
+└── Utilities/             # Shared utilities
+    ├── Parsers/           # URL parsing, HTML parsing
+    └── Formatters/        # Size, speed, ETA formatting
 ```
 
 ## Setup
@@ -94,9 +120,13 @@ photo-download/
 ## Development Workflow
 
 ### Code Organization Principles
-- **Separation of Concerns**: Keep download engine and persistence decoupled from UI for testability
-- **Dependency Injection**: Pass dependencies (e.g., Core Data context) rather than accessing singletons
+- **Layer Separation**: Strict boundaries between UI, Application, Domain, and Infrastructure
+- **Separation of Concerns**: Keep business logic in Domain, orchestration in Application, infrastructure separate
+- **Dependency Inversion**: Domain defines interfaces (protocols), Infrastructure implements them
+- **Single Source of Truth**: Core Data only; no separate in-memory state
+- **Dependency Injection**: Pass dependencies (services, repositories) through initializers
 - **Single Responsibility**: Each component should have one clear purpose
+- **Testability**: Domain layer should be testable without any dependencies
 
 ### Best Practices
 - **Streaming**: Prefer streaming writes to disk; avoid buffering large files in memory
@@ -147,10 +177,14 @@ photo-download/
 - **File Organization**: One main type per file, extensions in separate files if large
 
 ### Architecture Conventions
-- **State Management**: Status updates should go through a single state machine
+- **Layer Separation**: Strict separation between UI, Application, Domain, and Infrastructure
+- **Dependency Direction**: Dependencies point inward toward Domain
+- **Repository Pattern**: Use repository protocols (Domain) implemented by Infrastructure
+- **State Management**: Core Data is single source of truth; no in-memory state in services
 - **Observable Objects**: Use `@ObservableObject` for view models
-- **Core Data**: Use `@FetchRequest` in views, `NSManagedObjectContext` in view models
-- **Dependency Injection**: Pass dependencies through initializers
+- **Core Data**: Use `@FetchRequest` in views for direct observation, or Combine publishers from services
+- **Dependency Injection**: Pass dependencies (services, repositories) through initializers
+- **Domain Models**: Pure Swift structs/classes in Domain; Core Data entities only in Infrastructure
 
 ### Security Conventions
 - **URL Handling**: Do not store secrets; URLs are short-lived but still sensitive

@@ -208,8 +208,12 @@ The application must maintain state across restarts:
 ## Technical Constraints
 - **Platform**: macOS 13.0+ (Ventura or later)
 - **Framework**: SwiftUI for UI, Foundation/URLSession for networking
-- **Persistence**: Core Data or GRDB (to be determined)
-- **Architecture**: MVVM pattern with clear separation of concerns
+- **Persistence**: Core Data (SQLite store via NSPersistentContainer)
+  - Rationale: Native macOS framework, excellent SwiftUI integration, built-in migration support
+- **Architecture**: Clean Architecture with MVVM pattern
+  - Layers: UI → Application → Domain → Infrastructure
+  - Dependency inversion: Domain defines interfaces, Infrastructure implements
+  - Repository pattern for persistence abstraction
 
 ## Data Models
 

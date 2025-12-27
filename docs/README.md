@@ -29,6 +29,16 @@ This directory contains the complete documentation for the macOS iCloud Data Exp
 
 **When to read**: Reference this when writing tests or planning QA activities.
 
+### [ARCHITECTURE_REVIEW.md](./ARCHITECTURE_REVIEW.md)
+**Architecture Review** - Comprehensive architecture analysis, identified issues, and recommendations. Documents the architecture review process and improvements made.
+
+**When to read**: Review this to understand architectural decisions, issues that were addressed, and the rationale behind the current architecture.
+
+### [ARCHITECTURE_DIAGRAMS.md](./ARCHITECTURE_DIAGRAMS.md)
+**Architecture Diagrams** - Visual representations of the architecture, including current state, recommended improvements, and data flow diagrams.
+
+**When to read**: Use this for visual understanding of the architecture, component relationships, and data flows. Also see [view-diagrams.html](./view-diagrams.html) for an interactive viewer.
+
 ## Documentation Workflow
 
 ### When to Update Documentation
