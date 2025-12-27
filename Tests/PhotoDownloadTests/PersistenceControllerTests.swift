@@ -39,9 +39,12 @@ final class PersistenceControllerTests: XCTestCase {
         // Given: In-memory controller (loads synchronously)
         let controller = PersistenceController(inMemory: true)
         
-        // Then: Store URL should point to /dev/null
-        let storeURL = controller.container.persistentStoreDescriptions.first?.url
-        XCTAssertEqual(storeURL?.path, "/dev/null")
+        // Then: Store should be in-memory type
+        let stores = controller.container.persistentStoreCoordinator.persistentStores
+        XCTAssertFalse(stores.isEmpty, "Store should be loaded")
+        if let store = stores.first {
+            XCTAssertEqual(store.type, NSInMemoryStoreType, "Store should be in-memory type")
+        }
     }
     
     func testViewContextConfiguration() {
@@ -72,8 +75,11 @@ final class PersistenceControllerTests: XCTestCase {
         XCTAssertTrue(preview1.container === preview2.container)
         
         // And: Should be in-memory
-        let storeURL = preview1.container.persistentStoreDescriptions.first?.url
-        XCTAssertEqual(storeURL?.path, "/dev/null")
+        let stores = preview1.container.persistentStoreCoordinator.persistentStores
+        XCTAssertFalse(stores.isEmpty, "Store should be loaded")
+        if let store = stores.first {
+            XCTAssertEqual(store.type, NSInMemoryStoreType, "Store should be in-memory type")
+        }
     }
     
     // MARK: - Core Data Stack Tests
