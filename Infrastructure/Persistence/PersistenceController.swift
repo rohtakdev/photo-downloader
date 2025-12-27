@@ -37,13 +37,29 @@ class PersistenceController: ObservableObject {
             }
         }
         
-        container.loadPersistentStores { description, error in
-            if let error = error {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate.
-                // You should not use this function in a shipping application.
+        // Load persistent stores
+        // For in-memory stores, use a semaphore to wait synchronously (for tests)
+        if inMemory {
+            let semaphore = DispatchSemaphore(value: 0)
+            var loadError: Error?
+            
+            container.loadPersistentStores { description, error in
+                loadError = error
+                semaphore.signal()
+            }
+            
+            semaphore.wait()
+            
+            if let error = loadError {
                 Logger.persistence.error("Core Data store failed to load: \(error.localizedDescription)")
                 fatalError("Core Data store failed to load: \(error.localizedDescription)")
+            }
+        } else {
+            container.loadPersistentStores { description, error in
+                if let error = error {
+                    Logger.persistence.error("Core Data store failed to load: \(error.localizedDescription)")
+                    fatalError("Core Data store failed to load: \(error.localizedDescription)")
+                }
             }
         }
         

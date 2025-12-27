@@ -45,7 +45,7 @@ final class Phase1FoundationTests: XCTestCase {
     }
     
     func testCoreDataModelCanBeLoaded() {
-        // Given: PersistenceController
+        // Given: PersistenceController (in-memory loads synchronously)
         let controller = PersistenceController(inMemory: true)
         
         // When: Accessing managed object model

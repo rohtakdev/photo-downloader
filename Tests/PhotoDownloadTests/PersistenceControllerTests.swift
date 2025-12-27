@@ -27,7 +27,7 @@ final class PersistenceControllerTests: XCTestCase {
     // MARK: - Initialization Tests
     
     func testPersistenceControllerInitialization() {
-        // Given/When: Controller is initialized
+        // Given/When: Controller is initialized (in-memory loads synchronously)
         let controller = PersistenceController(inMemory: true)
         
         // Then: Container should be initialized
@@ -36,7 +36,7 @@ final class PersistenceControllerTests: XCTestCase {
     }
     
     func testInMemoryStoreConfiguration() {
-        // Given: In-memory controller
+        // Given: In-memory controller (loads synchronously)
         let controller = PersistenceController(inMemory: true)
         
         // Then: Store URL should point to /dev/null
@@ -45,7 +45,7 @@ final class PersistenceControllerTests: XCTestCase {
     }
     
     func testViewContextConfiguration() {
-        // Given: Initialized controller
+        // Given: Initialized controller (loads synchronously)
         let controller = PersistenceController(inMemory: true)
         
         // Then: View context should be configured correctly
@@ -79,15 +79,16 @@ final class PersistenceControllerTests: XCTestCase {
     // MARK: - Core Data Stack Tests
     
     func testPersistentStoreLoading() {
-        // Given: In-memory controller
+        // Given: In-memory controller (loads synchronously)
         let controller = PersistenceController(inMemory: true)
         
         // Then: Persistent stores should be loaded
         XCTAssertFalse(controller.container.persistentStoreDescriptions.isEmpty)
+        XCTAssertNotNil(controller.container.persistentStoreCoordinator.persistentStores.first)
     }
     
     func testViewContextIsMainContext() {
-        // Given: Initialized controller
+        // Given: Initialized controller (loads synchronously)
         let controller = PersistenceController(inMemory: true)
         
         // Then: View context should be main context
