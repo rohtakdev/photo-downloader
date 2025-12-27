@@ -7,7 +7,7 @@
 
 import XCTest
 import CoreData
-// Note: @testable import will be added when Xcode project is created with proper module name
+@testable import photo_download
 
 final class PersistenceControllerTests: XCTestCase {
     

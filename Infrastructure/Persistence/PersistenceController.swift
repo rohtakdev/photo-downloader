@@ -7,8 +7,10 @@
 
 import CoreData
 import Foundation
+import Combine
+import os.log
 
-struct PersistenceController {
+class PersistenceController: ObservableObject {
     static let shared = PersistenceController()
     
     static var preview: PersistenceController = {

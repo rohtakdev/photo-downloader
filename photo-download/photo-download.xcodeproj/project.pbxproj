@@ -6,6 +6,20 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		6AC66A7C2EFF8530002091BE /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AC66A6F2EFF8530002091BE /* PersistenceController.swift */; };
+		6AC66A7D2EFF8530002091BE /* PhotoDownloadApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AC66A5C2EFF8530002091BE /* PhotoDownloadApp.swift */; };
+		6AC66A7E2EFF8530002091BE /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AC66A792EFF8530002091BE /* Logger.swift */; };
+		6AC66A7F2EFF8530002091BE /* PhotoDownloadModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6AC66A6C2EFF8530002091BE /* PhotoDownloadModel.xcdatamodeld */; };
+		6AC66A802EFF8530002091BE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AC66A742EFF8530002091BE /* ContentView.swift */; };
+		6AC66A812EFF8530002091BE /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6AC66A672EFF8530002091BE /* Info.plist */; };
+		6AC66A842EFF857E002091BE /* PhotoDownloadModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6AC66A822EFF857E002091BE /* PhotoDownloadModel.xcdatamodeld */; };
+		6AC66A892EFF85BC002091BE /* PersistenceControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AC66A872EFF85BC002091BE /* PersistenceControllerTests.swift */; };
+		6AC66A8A2EFF85BC002091BE /* LoggerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AC66A862EFF85BC002091BE /* LoggerTests.swift */; };
+		6AC66A8B2EFF85BC002091BE /* CoreDataEntityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AC66A852EFF85BC002091BE /* CoreDataEntityTests.swift */; };
+		6AC66A8C2EFF85BC002091BE /* Phase1FoundationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AC66A882EFF85BC002091BE /* Phase1FoundationTests.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		6AC66A402EFF8425002091BE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,6 +41,18 @@
 		6AC66A2D2EFF8424002091BE /* photo-download.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "photo-download.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AC66A3F2EFF8425002091BE /* photo-downloadTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "photo-downloadTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AC66A492EFF8425002091BE /* photo-downloadUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "photo-downloadUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6AC66A5C2EFF8530002091BE /* PhotoDownloadApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoDownloadApp.swift; sourceTree = "<group>"; };
+		6AC66A672EFF8530002091BE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../Info.plist; sourceTree = SOURCE_ROOT; };
+		6AC66A6F2EFF8530002091BE /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
+		6AC66A722EFF8530002091BE /* photo-download.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = "photo-download.entitlements"; path = "../photo-download.entitlements"; sourceTree = SOURCE_ROOT; };
+		6AC66A742EFF8530002091BE /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		6AC66A792EFF8530002091BE /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		6AC66A7B2EFF8530002091BE /* PhotoDownloadModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PhotoDownloadModel.xcdatamodel; sourceTree = "<group>"; };
+		6AC66A832EFF857E002091BE /* PhotoDownloadModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PhotoDownloadModel.xcdatamodel; sourceTree = "<group>"; };
+		6AC66A852EFF85BC002091BE /* CoreDataEntityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CoreDataEntityTests.swift; path = ../Tests/PhotoDownloadTests/CoreDataEntityTests.swift; sourceTree = SOURCE_ROOT; };
+		6AC66A862EFF85BC002091BE /* LoggerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LoggerTests.swift; path = ../Tests/PhotoDownloadTests/LoggerTests.swift; sourceTree = SOURCE_ROOT; };
+		6AC66A872EFF85BC002091BE /* PersistenceControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PersistenceControllerTests.swift; path = ../Tests/PhotoDownloadTests/PersistenceControllerTests.swift; sourceTree = SOURCE_ROOT; };
+		6AC66A882EFF85BC002091BE /* Phase1FoundationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Phase1FoundationTests.swift; path = ../Tests/PhotoDownloadTests/Phase1FoundationTests.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -75,6 +101,18 @@
 		6AC66A242EFF8424002091BE = {
 			isa = PBXGroup;
 			children = (
+				6AC66A852EFF85BC002091BE /* CoreDataEntityTests.swift */,
+				6AC66A862EFF85BC002091BE /* LoggerTests.swift */,
+				6AC66A872EFF85BC002091BE /* PersistenceControllerTests.swift */,
+				6AC66A882EFF85BC002091BE /* Phase1FoundationTests.swift */,
+				6AC66A5D2EFF8530002091BE /* App */,
+				6AC66A602EFF8530002091BE /* Application */,
+				6AC66A662EFF8530002091BE /* Domain */,
+				6AC66A672EFF8530002091BE /* Info.plist */,
+				6AC66A712EFF8530002091BE /* Infrastructure */,
+				6AC66A722EFF8530002091BE /* photo-download.entitlements */,
+				6AC66A762EFF8530002091BE /* UI */,
+				6AC66A7A2EFF8530002091BE /* Utilities */,
 				6AC66A2F2EFF8424002091BE /* photo-download */,
 				6AC66A422EFF8425002091BE /* photo-downloadTests */,
 				6AC66A4C2EFF8425002091BE /* photo-downloadUITests */,
@@ -91,6 +129,204 @@
 			);
 			name = Products;
 			sourceTree = "<group>";
+		};
+		6AC66A5D2EFF8530002091BE /* App */ = {
+			isa = PBXGroup;
+			children = (
+				6AC66A5C2EFF8530002091BE /* PhotoDownloadApp.swift */,
+			);
+			name = App;
+			path = ../App;
+			sourceTree = SOURCE_ROOT;
+		};
+		6AC66A5E2EFF8530002091BE /* ErrorHandling */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ErrorHandling;
+			sourceTree = "<group>";
+		};
+		6AC66A5F2EFF8530002091BE /* Services */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		6AC66A602EFF8530002091BE /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				6AC66A5E2EFF8530002091BE /* ErrorHandling */,
+				6AC66A5F2EFF8530002091BE /* Services */,
+			);
+			name = Application;
+			path = ../Application;
+			sourceTree = SOURCE_ROOT;
+		};
+		6AC66A612EFF8530002091BE /* BusinessRules */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = BusinessRules;
+			sourceTree = "<group>";
+		};
+		6AC66A622EFF8530002091BE /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		6AC66A632EFF8530002091BE /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Repositories;
+			sourceTree = "<group>";
+		};
+		6AC66A642EFF8530002091BE /* StateMachine */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = StateMachine;
+			sourceTree = "<group>";
+		};
+		6AC66A652EFF8530002091BE /* Validation */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Validation;
+			sourceTree = "<group>";
+		};
+		6AC66A662EFF8530002091BE /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				6AC66A612EFF8530002091BE /* BusinessRules */,
+				6AC66A622EFF8530002091BE /* Models */,
+				6AC66A632EFF8530002091BE /* Repositories */,
+				6AC66A642EFF8530002091BE /* StateMachine */,
+				6AC66A652EFF8530002091BE /* Validation */,
+			);
+			name = Domain;
+			path = ../Domain;
+			sourceTree = SOURCE_ROOT;
+		};
+		6AC66A682EFF8530002091BE /* FileSystem */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = FileSystem;
+			sourceTree = "<group>";
+		};
+		6AC66A692EFF8530002091BE /* Network */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		6AC66A6A2EFF8530002091BE /* Mappers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Mappers;
+			sourceTree = "<group>";
+		};
+		6AC66A6B2EFF8530002091BE /* Migrations */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Migrations;
+			sourceTree = "<group>";
+		};
+		6AC66A6D2EFF8530002091BE /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				6AC66A822EFF857E002091BE /* PhotoDownloadModel.xcdatamodeld */,
+				6AC66A6C2EFF8530002091BE /* PhotoDownloadModel.xcdatamodeld */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		6AC66A6E2EFF8530002091BE /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Repositories;
+			sourceTree = "<group>";
+		};
+		6AC66A702EFF8530002091BE /* Persistence */ = {
+			isa = PBXGroup;
+			children = (
+				6AC66A6A2EFF8530002091BE /* Mappers */,
+				6AC66A6B2EFF8530002091BE /* Migrations */,
+				6AC66A6D2EFF8530002091BE /* Models */,
+				6AC66A6E2EFF8530002091BE /* Repositories */,
+				6AC66A6F2EFF8530002091BE /* PersistenceController.swift */,
+			);
+			path = Persistence;
+			sourceTree = "<group>";
+		};
+		6AC66A712EFF8530002091BE /* Infrastructure */ = {
+			isa = PBXGroup;
+			children = (
+				6AC66A682EFF8530002091BE /* FileSystem */,
+				6AC66A692EFF8530002091BE /* Network */,
+				6AC66A702EFF8530002091BE /* Persistence */,
+			);
+			name = Infrastructure;
+			path = ../Infrastructure;
+			sourceTree = SOURCE_ROOT;
+		};
+		6AC66A732EFF8530002091BE /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		6AC66A752EFF8530002091BE /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				6AC66A742EFF8530002091BE /* ContentView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		6AC66A762EFF8530002091BE /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				6AC66A732EFF8530002091BE /* ViewModels */,
+				6AC66A752EFF8530002091BE /* Views */,
+			);
+			name = UI;
+			path = ../UI;
+			sourceTree = SOURCE_ROOT;
+		};
+		6AC66A772EFF8530002091BE /* Formatters */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Formatters;
+			sourceTree = "<group>";
+		};
+		6AC66A782EFF8530002091BE /* Parsers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Parsers;
+			sourceTree = "<group>";
+		};
+		6AC66A7A2EFF8530002091BE /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				6AC66A772EFF8530002091BE /* Formatters */,
+				6AC66A782EFF8530002091BE /* Parsers */,
+				6AC66A792EFF8530002091BE /* Logger.swift */,
+			);
+			name = Utilities;
+			path = ../Utilities;
+			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 
@@ -212,6 +448,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6AC66A812EFF8530002091BE /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -236,6 +473,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6AC66A7C2EFF8530002091BE /* PersistenceController.swift in Sources */,
+				6AC66A7D2EFF8530002091BE /* PhotoDownloadApp.swift in Sources */,
+				6AC66A7E2EFF8530002091BE /* Logger.swift in Sources */,
+				6AC66A7F2EFF8530002091BE /* PhotoDownloadModel.xcdatamodeld in Sources */,
+				6AC66A842EFF857E002091BE /* PhotoDownloadModel.xcdatamodeld in Sources */,
+				6AC66A802EFF8530002091BE /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -243,6 +486,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6AC66A892EFF85BC002091BE /* PersistenceControllerTests.swift in Sources */,
+				6AC66A8A2EFF85BC002091BE /* LoggerTests.swift in Sources */,
+				6AC66A8B2EFF85BC002091BE /* CoreDataEntityTests.swift in Sources */,
+				6AC66A8C2EFF85BC002091BE /* Phase1FoundationTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -396,14 +643,25 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_APP_SANDBOX = YES;
+				ENABLE_INCOMING_NETWORK_CONNECTIONS = NO;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
 				ENABLE_PREVIEWS = YES;
-				ENABLE_USER_SELECTED_FILES = readonly;
+				ENABLE_RESOURCE_ACCESS_AUDIO_INPUT = NO;
+				ENABLE_RESOURCE_ACCESS_BLUETOOTH = NO;
+				ENABLE_RESOURCE_ACCESS_CALENDARS = NO;
+				ENABLE_RESOURCE_ACCESS_CAMERA = NO;
+				ENABLE_RESOURCE_ACCESS_CONTACTS = NO;
+				ENABLE_RESOURCE_ACCESS_LOCATION = NO;
+				ENABLE_RESOURCE_ACCESS_PRINTING = NO;
+				ENABLE_RESOURCE_ACCESS_USB = NO;
+				ENABLE_USER_SELECTED_FILES = readwrite;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 13.5;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.kashyap.photo-download";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -426,14 +684,25 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_APP_SANDBOX = YES;
+				ENABLE_INCOMING_NETWORK_CONNECTIONS = NO;
+				ENABLE_OUTGOING_NETWORK_CONNECTIONS = YES;
 				ENABLE_PREVIEWS = YES;
-				ENABLE_USER_SELECTED_FILES = readonly;
+				ENABLE_RESOURCE_ACCESS_AUDIO_INPUT = NO;
+				ENABLE_RESOURCE_ACCESS_BLUETOOTH = NO;
+				ENABLE_RESOURCE_ACCESS_CALENDARS = NO;
+				ENABLE_RESOURCE_ACCESS_CAMERA = NO;
+				ENABLE_RESOURCE_ACCESS_CONTACTS = NO;
+				ENABLE_RESOURCE_ACCESS_LOCATION = NO;
+				ENABLE_RESOURCE_ACCESS_PRINTING = NO;
+				ENABLE_RESOURCE_ACCESS_USB = NO;
+				ENABLE_USER_SELECTED_FILES = readwrite;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 13.5;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.kashyap.photo-download";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -563,6 +832,29 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		6AC66A6C2EFF8530002091BE /* PhotoDownloadModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				6AC66A7B2EFF8530002091BE /* PhotoDownloadModel.xcdatamodel */,
+			);
+			currentVersion = 6AC66A7B2EFF8530002091BE /* PhotoDownloadModel.xcdatamodel */;
+			path = PhotoDownloadModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+		6AC66A822EFF857E002091BE /* PhotoDownloadModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				6AC66A832EFF857E002091BE /* PhotoDownloadModel.xcdatamodel */,
+			);
+			currentVersion = 6AC66A832EFF857E002091BE /* PhotoDownloadModel.xcdatamodel */;
+			path = PhotoDownloadModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 6AC66A252EFF8424002091BE /* Project object */;
 }

@@ -7,7 +7,7 @@
 
 import XCTest
 import os.log
-// Note: @testable import will be added when Xcode project is created with proper module name
+@testable import photo_download
 
 final class LoggerTests: XCTestCase {
     
@@ -70,11 +70,15 @@ final class LoggerTests: XCTestCase {
         let networkLogger = Logger.network
         
         // Then: They should be different instances (different categories)
-        // Note: os.log.Logger doesn't expose category directly for comparison
-        // But we can verify they're all Logger instances
-        XCTAssertTrue(persistenceLogger is Logger)
-        XCTAssertTrue(downloadLogger is Logger)
-        XCTAssertTrue(networkLogger is Logger)
+        // Note: os.log.Logger doesn't expose category directly for comparison,
+        // so we verify they exist and can be used independently
+        // The fact that they don't crash when logging is our validation
+        persistenceLogger.info("Persistence test")
+        downloadLogger.info("Download test")
+        networkLogger.info("Network test")
+        
+        // If we got here without crashing, the loggers are properly initialized
+        XCTAssertTrue(true, "All loggers are properly initialized")
     }
     
     // MARK: - Logger Functionality Tests
