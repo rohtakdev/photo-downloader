@@ -81,6 +81,7 @@ Phase 7 (Testing/Release)
 - **Persistence**: PersistenceController singleton with preview support for SwiftUI previews
 - **Logging**: Category-based loggers (persistence, download, network, ui, application, error)
 - **Configuration**: App Sandbox configured for user-selected file access and network client
+- **Testing**: Phase 1 test suite created (36 test cases covering PersistenceController, Core Data entities, Logger, and integration tests)
 
 ## Phase 2: Download Engine
 **Duration**: 7-10 days  
@@ -94,6 +95,7 @@ Phase 7 (Testing/Release)
 - Add retry logic with exponential backoff.
 - Create URLSession delegate for progress tracking.
 - Implement file streaming to disk.
+- Create DownloadService in Application layer to orchestrate downloads.
 
 ### Deliverables
 - Working download queue controller
@@ -101,6 +103,7 @@ Phase 7 (Testing/Release)
 - Resume functionality tested
 - Retry logic with backoff
 - Progress calculation utilities
+- DownloadService implementation
 
 ## Phase 3: Input and Parsing
 **Duration**: 3-4 days  
@@ -151,12 +154,19 @@ Phase 7 (Testing/Release)
 - Implement Core Data save on state changes.
 - Add file system validation on startup.
 - Handle Core Data migration scenarios.
+- Implement background download agent (DownloadAgent service).
+- Configure background task scheduling (NSBackgroundActivityScheduler or BGTaskScheduler).
+- Add state reconciliation logic for agent.
+- Enable background download continuation.
 
 ### Deliverables
 - Persistent state across restarts
 - Automatic resume on launch
 - Core Data migration support
 - State recovery logic
+- Background download agent service
+- Background task scheduling configured
+- Downloads continue when app is backgrounded
 
 ## Phase 6: Settings and Polishing
 **Duration**: 3-4 days  
@@ -238,12 +248,16 @@ Phase 7 (Testing/Release)
 - State persists across app restarts
 - Downloads resume automatically on launch
 - Partial files detected and handled
+- Background agent monitors and manages downloads
 
 **Acceptance**:
 - [ ] App restart preserves all state
 - [ ] Partial downloads resume correctly
 - [ ] No data loss on crash
 - [ ] Queue state restored accurately
+- [ ] Background agent processes queue automatically
+- [ ] Downloads continue when app is backgrounded
+- [ ] State reconciliation works on launch
 
 ### M4: Settings, Testing, and Release Readiness
 **Target**: End of Phase 7  
