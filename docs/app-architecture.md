@@ -48,6 +48,16 @@ Orchestrates business operations and coordinates between UI, Domain, and Infrast
   - Transforms technical errors to user-friendly messages
   - Routes errors to appropriate handlers
   - Coordinates error logging
+  
+- **IntelligentDownloadAgent**:
+  - Monitors download progress and performance metrics
+  - Analyzes error patterns and diagnoses root causes
+  - Generates action plans for issue resolution
+  - Applies runtime fixes (adaptive retry, parameter adjustment)
+  - Generates code fixes and creates PRs for code-level issues
+  - Maintains knowledge base of learned patterns and fixes
+  - Operates autonomously in background
+  - Reduces debugging time through proactive issue detection
 
 ### Domain Layer
 Pure business logic with no external dependencies. Defines interfaces that Infrastructure implements.

@@ -179,39 +179,69 @@ The application must maintain state across restarts:
 - Partial downloads are detected and resumed
 - No data loss on unexpected termination
 
-### FR8: Background Download Agent
-The application must include a background agent that monitors and manages downloads independently of the UI:
+### FR8: Intelligent Background Download Agent
+The application must include an intelligent background agent that monitors, diagnoses, and autonomously fixes download issues:
 
-1. **Background Monitoring**
+1. **Background Monitoring and Analysis**
    - Agent runs independently of UI layer
    - Periodically monitors Core Data for queued/downloading items
    - Continues download operations when app is in background
-   - Operates autonomously without requiring user interaction
+   - Analyzes download progress patterns and performance metrics
+   - Detects anomalies: stalled downloads, unexpected speed drops, repeated failures
+   - Tracks error patterns and failure modes across multiple downloads
 
-2. **Automatic Queue Processing**
-   - Automatically starts queued downloads when slots become available
-   - Monitors for items that need retry (failed with retryable errors)
-   - Resumes paused downloads when appropriate
-   - Handles expired URLs by marking status appropriately
+2. **Intelligent Issue Diagnosis**
+   - Analyzes error logs, network conditions, and download state
+   - Identifies root causes of failures (network issues, URL expiration, file system problems, code bugs)
+   - Correlates patterns across multiple download items to identify systemic issues
+   - Builds diagnostic context from error messages, stack traces, and state transitions
+   - Classifies issues as: runtime-fixable, code-fix-required, or user-action-required
 
-3. **State Reconciliation**
+3. **Autonomous Action Planning and Execution**
+   - Generates action plans based on diagnosis
+   - **Runtime Fixes**: Automatically applies fixes that can be handled at runtime:
+     - Adjusts retry strategies based on error patterns
+     - Modifies concurrency limits if resource constraints detected
+     - Switches network strategies (e.g., different timeout values)
+     - Handles transient errors with intelligent backoff
+   - **Code Generation**: For code-level issues, generates fixes:
+     - Creates code patches for identified bugs
+     - Generates unit tests for edge cases discovered
+     - Updates error handling logic based on observed failures
+     - Creates pull requests with fixes and documentation
+   - **User Notification**: Escalates issues requiring user intervention with clear guidance
+
+4. **Self-Healing Capabilities**
+   - Automatically recovers from transient failures
+   - Adapts retry strategies based on observed failure patterns
+   - Optimizes download parameters (timeouts, chunk sizes) based on network conditions
+   - Prevents recurring issues by learning from past failures
+   - Maintains a knowledge base of fixes applied for future reference
+
+5. **State Reconciliation and Recovery**
    - On app launch, agent queries Core Data and reconciles state
    - Detects inconsistencies between persisted state and actual file system
    - Restores downloads that were in progress before app termination
    - Validates partial files and resumes or marks as failed accordingly
+   - Diagnoses and fixes state inconsistencies automatically
 
-4. **Background Execution**
+6. **Background Execution**
    - Uses macOS background task scheduling (NSBackgroundActivityScheduler or BGTaskScheduler)
    - Continues downloads when app is backgrounded
    - Respects system resource constraints
    - Operates within Application layer following Clean Architecture principles
+   - Can trigger code generation and PR creation asynchronously
 
 **Acceptance Criteria:**
 - Downloads continue when app is in background
 - Agent automatically processes queue without user intervention
+- Agent diagnoses issues and generates actionable fixes
+- Runtime fixes are applied automatically when possible
+- Code fixes are generated and PRs created for code-level issues
 - State is reconciled correctly on app launch
 - Background agent operates independently of UI state
-- Agent respects system background execution limits
+- Agent reduces debugging time through proactive issue detection
+- Agent learns from past failures to prevent recurring issues
 
 ## Non-Functional Requirements
 
@@ -227,12 +257,16 @@ The application must include a background agent that monitors and manages downlo
 - Accurate progress tracking
 - Consistent state management
 - Background agent continues operations independently
+- Self-healing capabilities reduce manual intervention
+- Proactive issue detection and resolution
 
 ### NFR3: User Experience
 - Clear error messages with actionable guidance
 - Responsive UI during active downloads
 - Intuitive interface for bulk operations
 - Helpful status messages and tooltips
+- Reduced debugging time through intelligent agent
+- Automatic issue resolution minimizes user intervention
 
 ### NFR4: Security
 - Do not store sensitive URLs in plain text logs
@@ -251,6 +285,11 @@ The application must include a background agent that monitors and manages downlo
   - Repository pattern for persistence abstraction
 - **Background Execution**: NSBackgroundActivityScheduler or BGTaskScheduler for background download management
   - Rationale: Native macOS background task scheduling, allows downloads to continue when app is backgrounded
+- **Intelligent Agent**: AI-powered diagnostic and self-healing system
+  - Uses LLM/AI capabilities for issue diagnosis and code generation
+  - Integrates with version control for automated PR creation
+  - Maintains knowledge base of fixes and patterns
+  - Rationale: Reduces debugging time, enables autonomous issue resolution, improves reliability
 
 ## Data Models
 

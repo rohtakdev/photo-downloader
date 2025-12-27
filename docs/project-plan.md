@@ -15,9 +15,11 @@ Phase 4 (UI/UX) ←────────────┘ (can start in paralle
     ↓
 Phase 5 (Persistence/Resume)
     ↓
-Phase 6 (Settings/Polishing)
+Phase 6 (Intelligent Agent/Self-Healing)
     ↓
-Phase 7 (Testing/Release)
+Phase 7 (Settings/Polishing)
+    ↓
+Phase 8 (Testing/Release)
 ```
 
 **Note**: Phase 4 (UI) can begin once Phase 1 (Foundations) is complete, as it can work with mock data initially.
@@ -32,8 +34,9 @@ Phase 7 (Testing/Release)
 - ⏳ **Phase 3**: Input and Parsing - Pending
 - ⏳ **Phase 4**: UI and UX - Pending
 - ⏳ **Phase 5**: Persistence and Resume - Pending
-- ⏳ **Phase 6**: Settings and Polishing - Pending
-- ⏳ **Phase 7**: Testing and Release Prep - Pending
+- ⏳ **Phase 6**: Intelligent Agent and Self-Healing - Pending
+- ⏳ **Phase 7**: Settings and Polishing - Pending
+- ⏳ **Phase 8**: Testing and Release Prep - Pending
 
 ## Phase 0: Discovery and Requirements
 **Duration**: 1-2 days  
@@ -154,7 +157,7 @@ Phase 7 (Testing/Release)
 - Implement Core Data save on state changes.
 - Add file system validation on startup.
 - Handle Core Data migration scenarios.
-- Implement background download agent (DownloadAgent service).
+- Implement basic background download agent (DownloadAgent service).
 - Configure background task scheduling (NSBackgroundActivityScheduler or BGTaskScheduler).
 - Add state reconciliation logic for agent.
 - Enable background download continuation.
@@ -164,13 +167,40 @@ Phase 7 (Testing/Release)
 - Automatic resume on launch
 - Core Data migration support
 - State recovery logic
-- Background download agent service
+- Basic background download agent service
 - Background task scheduling configured
 - Downloads continue when app is backgrounded
 
-## Phase 6: Settings and Polishing
+## Phase 6: Intelligent Agent and Self-Healing
+**Duration**: 7-10 days  
+**Dependencies**: Phase 5
+
+### Tasks
+- Implement intelligent monitoring and analysis system.
+- Build diagnostic engine for issue detection and root cause analysis.
+- Create pattern recognition for error correlation across downloads.
+- Implement runtime fix system (adaptive retry, parameter adjustment).
+- Integrate AI/LLM capabilities for code generation and fix creation.
+- Build code generation pipeline for automated bug fixes.
+- Implement PR creation system for code-level fixes.
+- Create knowledge base for learned fixes and patterns.
+- Add self-healing capabilities with adaptive strategies.
+- Implement issue classification (runtime-fixable vs code-fix-required).
+- Add anomaly detection for stalled downloads and performance issues.
+- Build diagnostic context collection (logs, stack traces, state).
+
+### Deliverables
+- Intelligent diagnostic agent service
+- Runtime fix system with adaptive strategies
+- Code generation and PR creation pipeline
+- Knowledge base for learned patterns
+- Anomaly detection and pattern recognition
+- Self-healing capabilities
+- Issue classification system
+
+## Phase 7: Settings and Polishing
 **Duration**: 3-4 days  
-**Dependencies**: Phase 4, Phase 5
+**Dependencies**: Phase 4, Phase 5, Phase 6
 
 ### Tasks
 - Settings panel: default folder, concurrency, retries, throttling.
@@ -180,14 +210,16 @@ Phase 7 (Testing/Release)
 - Implement settings validation.
 - Polish UI/UX details.
 - Add tooltips and help text.
+- Add agent status and activity indicators to UI.
 
 ### Deliverables
 - Settings view
 - Settings persistence
 - Improved error messages
 - Polished UI
+- Agent status display
 
-## Phase 7: Testing and Release Prep
+## Phase 8: Testing and Release Prep
 **Duration**: 5-7 days  
 **Dependencies**: All previous phases
 
@@ -208,7 +240,8 @@ Phase 7 (Testing/Release)
 - User guide (if needed)
 
 ## Total Estimated Duration
-**Approximate Total**: 30-45 days (6-9 weeks for a single developer)
+**Approximate Total**: 40-55 days (8-11 weeks for a single developer)
+**Note**: Phase 6 (Intelligent Agent) adds 7-10 days for AI integration and self-healing capabilities
 
 **Note**: Estimates assume full-time development. Adjust based on available time and team size.
 
@@ -248,7 +281,7 @@ Phase 7 (Testing/Release)
 - State persists across app restarts
 - Downloads resume automatically on launch
 - Partial files detected and handled
-- Background agent monitors and manages downloads
+- Basic background agent monitors and manages downloads
 
 **Acceptance**:
 - [ ] App restart preserves all state
@@ -259,19 +292,38 @@ Phase 7 (Testing/Release)
 - [ ] Downloads continue when app is backgrounded
 - [ ] State reconciliation works on launch
 
+### M3.5: Intelligent Agent and Self-Healing
+**Target**: End of Phase 6  
+**Criteria**:
+- Intelligent agent diagnoses issues and generates fixes
+- Runtime fixes are applied automatically
+- Code fixes are generated and PRs created
+- Agent learns from past failures
+
+**Acceptance**:
+- [ ] Agent detects and diagnoses download issues
+- [ ] Runtime fixes are applied automatically when possible
+- [ ] Code generation creates fixes for identified bugs
+- [ ] PRs are created automatically for code-level fixes
+- [ ] Knowledge base stores learned patterns
+- [ ] Agent reduces debugging time through proactive detection
+- [ ] Self-healing prevents recurring issues
+
 ### M4: Settings, Testing, and Release Readiness
-**Target**: End of Phase 7  
+**Target**: End of Phase 8  
 **Criteria**:
 - All settings functional and persistent
 - Test suite passes
 - App signed and ready for distribution
 - Documentation complete
+- Intelligent agent fully operational
 
 **Acceptance**:
 - [ ] All settings work and persist
 - [ ] Test coverage > 70%
 - [ ] App builds and runs on clean system
 - [ ] Documentation is up to date
+- [ ] Intelligent agent demonstrates self-healing capabilities
 
 ## Risk Assessment
 
