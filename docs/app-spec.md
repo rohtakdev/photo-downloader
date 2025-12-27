@@ -179,6 +179,40 @@ The application must maintain state across restarts:
 - Partial downloads are detected and resumed
 - No data loss on unexpected termination
 
+### FR8: Background Download Agent
+The application must include a background agent that monitors and manages downloads independently of the UI:
+
+1. **Background Monitoring**
+   - Agent runs independently of UI layer
+   - Periodically monitors Core Data for queued/downloading items
+   - Continues download operations when app is in background
+   - Operates autonomously without requiring user interaction
+
+2. **Automatic Queue Processing**
+   - Automatically starts queued downloads when slots become available
+   - Monitors for items that need retry (failed with retryable errors)
+   - Resumes paused downloads when appropriate
+   - Handles expired URLs by marking status appropriately
+
+3. **State Reconciliation**
+   - On app launch, agent queries Core Data and reconciles state
+   - Detects inconsistencies between persisted state and actual file system
+   - Restores downloads that were in progress before app termination
+   - Validates partial files and resumes or marks as failed accordingly
+
+4. **Background Execution**
+   - Uses macOS background task scheduling (NSBackgroundActivityScheduler or BGTaskScheduler)
+   - Continues downloads when app is backgrounded
+   - Respects system resource constraints
+   - Operates within Application layer following Clean Architecture principles
+
+**Acceptance Criteria:**
+- Downloads continue when app is in background
+- Agent automatically processes queue without user intervention
+- State is reconciled correctly on app launch
+- Background agent operates independently of UI state
+- Agent respects system background execution limits
+
 ## Non-Functional Requirements
 
 ### NFR1: Performance
@@ -192,6 +226,7 @@ The application must maintain state across restarts:
 - No data corruption in resumed downloads
 - Accurate progress tracking
 - Consistent state management
+- Background agent continues operations independently
 
 ### NFR3: User Experience
 - Clear error messages with actionable guidance
@@ -214,6 +249,8 @@ The application must maintain state across restarts:
   - Layers: UI → Application → Domain → Infrastructure
   - Dependency inversion: Domain defines interfaces, Infrastructure implements
   - Repository pattern for persistence abstraction
+- **Background Execution**: NSBackgroundActivityScheduler or BGTaskScheduler for background download management
+  - Rationale: Native macOS background task scheduling, allows downloads to continue when app is backgrounded
 
 ## Data Models
 
